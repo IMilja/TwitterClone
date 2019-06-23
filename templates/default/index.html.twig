@@ -1,8 +1,11 @@
 {% extends 'base.html.twig' %}
-
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
 {% block title %}Homepage{% endblock %}
 
 {% block body %}
+  <div class="mb-3 p-5">
+    {{ form(form) }}
+  </div>
   {% if posts %}
     {% for post in posts %}
       <div class="card m-2">
@@ -10,9 +13,9 @@
           {{ post.title }}
         </div>
         <div class="card-body">
+          {{ post.body }}
           <blockquote class="blockquote mb-0">
-            <p>{{ post.body }}</p>
-            <footer class="blockquote-footer">{{ post.postDate }}</footer>
+            <small>Time posted: {{  post.postDate | date('Y-m-d H:i:s') }}</small>
           </blockquote>
         </div>
       </div>
