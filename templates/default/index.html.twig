@@ -9,14 +9,20 @@
   {% if posts %}
     {% for post in posts %}
       <div class="card m-2">
-        <div class="card-header">
-          {{ post.title }}
+        <div class="card-header text-center">
+          <h4>{{ post.title }}</h4>
         </div>
+        <hr>
         <div class="card-body">
-          {{ post.body }}
+          <p>{{ post.body }}</p>
+          <hr>
           <blockquote class="blockquote mb-0">
             <small>Time posted: {{  post.postDate | date('Y-m-d H:i:s') }}</small>
           </blockquote>
+        </div>
+        <hr>
+        <div class="d-flex justify-content-end">
+          <a href="{{ path('default.delete', {'id':post.id}) }}" class="btn btn-danger m-2">Delete</a>
         </div>
       </div>
     {% endfor %}

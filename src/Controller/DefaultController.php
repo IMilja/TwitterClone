@@ -30,34 +30,51 @@ class DefaultController extends AbstractController {
 
 		$form = $this->createForm( PostFormType::class, $post );
 
-		$form->add('submit', SubmitType::class, [
+		$form->add( 'submit', SubmitType::class, [
 			'label' => 'Create post',
-			'attr' => [
+			'attr'  => [
 				'class' => 'btn btn-primary'
 			]
-		]);
+		] );
 
 		$form->handleRequest( $request );
 
 		if ( $form->isSubmitted() && $form->isValid() ) {
 			$post = $form->getData();
-			$post->setPostDate(DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s')));
+			$post->setPostDate( DateTime::createFromFormat( 'Y-m-d H:i:s', date( 'Y-m-d H:i:s' ) ) );
 
 			$em = $this->getDoctrine()->getManager();
 
 			$em->persist( $post );
 			$em->flush();
 
-			$this->addFlash('success', 'Post is successfully created!');
+			$this->addFlash( 'success', 'Post is successfully created!' );
 
-			return $this->redirectToRoute('default.index');
+			return $this->redirectToRoute( 'default.index' );
 		}
 
 		$posts = $this->getDoctrine()->getRepository( Post::class )->findAll();
 
 		return $this->render( 'default/index.html.twig', [
 			'posts' => $posts,
-			'form' => $form->createView()
+			'form'  => $form->createView()
 		] );
+	}
+
+	/**
+	 * @Route("/delete/{id}", name="delete")
+	 * @param $id
+	 *
+	 * @return RedirectResponse
+	 */
+	public function delete( $id ) {
+		$post = $this->getDoctrine()->getRepository(Post::class)->find($id);
+
+		$em = $this->getDoctrine()->getManager();
+
+		$em->remove($post);
+		$em->flush();
+
+		return $this->redirectToRoute( 'default.index' );
 	}
 }
