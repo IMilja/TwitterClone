@@ -31,6 +31,11 @@ class Post
      */
     private $post_date;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="posts")
+     */
+    private $user_id;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -68,6 +73,18 @@ class Post
     public function setPostDate(?\DateTimeInterface $post_date): self
     {
         $this->post_date = $post_date;
+
+        return $this;
+    }
+
+    public function getUserId(): ?User
+    {
+        return $this->user_id;
+    }
+
+    public function setUserId(?User $user_id): self
+    {
+        $this->user_id = $user_id;
 
         return $this;
     }

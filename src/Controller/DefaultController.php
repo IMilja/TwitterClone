@@ -42,7 +42,7 @@ class DefaultController extends AbstractController {
 		if ( $form->isSubmitted() && $form->isValid() ) {
 			$post = $form->getData();
 			$post->setPostDate( DateTime::createFromFormat( 'Y-m-d H:i:s', date( 'Y-m-d H:i:s' ) ) );
-
+			$post->setUserId($this->getUser());
 			$em = $this->getDoctrine()->getManager();
 
 			$em->persist( $post );

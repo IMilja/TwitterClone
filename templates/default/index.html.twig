@@ -10,20 +10,24 @@
     {% for post in posts %}
       <div class="card m-2">
         <div class="card-header text-center">
-          <h4>{{ post.title }}</h4>
+          <h4>Title: {{ post.title }}</h4>
         </div>
-        <hr>
         <div class="card-body">
+          <h4>Body:</h4>
           <p>{{ post.body }}</p>
           <hr>
           <blockquote class="blockquote mb-0">
-            <small>Time posted: {{  post.postDate | date('Y-m-d H:i:s') }}</small>
+            <small>Time posted: {{ post.postDate | date('Y-m-d H:i:s') }}</small>
+            <br>
+            <small>Posted by: {{ post.userId.username }}</small>
           </blockquote>
         </div>
-        <hr>
-        <div class="d-flex justify-content-end">
-          <a href="{{ path('default.delete', {'id':post.id}) }}" class="btn btn-danger m-2">Delete</a>
-        </div>
+        {% if app.user.id == post.userId.id %}
+          <hr>
+          <div class="d-flex justify-content-end">
+            <a href="{{ path('default.delete', {'id':post.id}) }}" class="btn btn-danger m-2">Delete</a>
+          </div>
+        {% endif %}
       </div>
     {% endfor %}
   {% else %}
